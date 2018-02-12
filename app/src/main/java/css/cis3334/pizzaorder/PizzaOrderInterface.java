@@ -1,5 +1,7 @@
 package css.cis3334.pizzaorder;
 
+import android.widget.CheckBox;
+
 /**
  * Created by tgibbons on 2/10/2017.
  */
@@ -11,5 +13,6 @@ public interface PizzaOrderInterface {
     Double getExtraCheesePrice();
     void setDelivery(boolean deliver);
     boolean getDelivery();
+
 
 }

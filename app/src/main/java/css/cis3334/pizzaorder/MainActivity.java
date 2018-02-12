@@ -1,5 +1,6 @@
 package css.cis3334.pizzaorder;
 
+import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements updateViewInterfa
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void updateOrderStatusInView(String orderStatus) {
 
@@ -61,38 +63,23 @@ public class MainActivity extends AppCompatActivity implements updateViewInterfa
 
     public void onClickOrder(View view) {
         // ****** Students need to add code here to get information from the UI widgets...
-        // I watched a video on the following youtube channel to try to understand the spinner functionality: https://www.youtube.com/watch?v=28jA5-mO8K8
-        ArrayAdapter<CharSequence> adapter; //declaring an adapter char sequence to hold spinnerToppings selection
-        adapter = ArrayAdapter.createFromResource(this,R.array.toppings,android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerToppings.setAdapter(adapter);
-        spinnerToppings.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(getBaseContext(),parent.getItemAtPosition(position)+ " selected", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        adapter.toString(); //Turning adapter into a string so it can pulled into the orderDescription below.
-
-        String pizzaSize; //initiallizing string pizzasize to be set to the radiobutton that is selected.
+        if (chkbxDelivery.isChecked()) {
+            chkbxDelivery = pizzaOrderSystem.setDelivery(); //I'm unsure what I'm supposed to do with the error here.
+        }
+        String pizzaSize = ""; //initiallizing string pizzasize to be set to the radiobutton that is selected.
         if (rbSmall.isChecked()){
-            pizzaSize = 'SMALL'; //sets to size when selected
+            pizzaSize = "SMALL"; //sets to size when selected
         }
         else if (rbMedium.isChecked()){
-            pizzaSize = 'MEDIUM';
+            pizzaSize = "MEDIUM";
         }
         else if (rbLarge.isChecked()){
-            pizzaSize = 'LARGE';
+            pizzaSize = "LARGE";
         }
 
         // ****** Students need to modify the call to OrderPizza to order the type of pizza the user selects using the UI widgets
-        String orderDescription = pizzaOrderSystem.OrderPizza(adapter, pizzaSize ,chkbxCheese.isChecked()); // how to pull in the adapter selected above?
+        String orderDescription = pizzaOrderSystem.OrderPizza(spinnerToppings.getSelectedItem().toString(), pizzaSize ,chkbxCheese.isChecked()); // appears to pull in toppings, pizza size, and whether extra cheese is wanted
 
 
         //display a pop up message for a long period of time
